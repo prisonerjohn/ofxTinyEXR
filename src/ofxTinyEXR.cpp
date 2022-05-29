@@ -19,13 +19,13 @@ bool ofxTinyEXR::loadImage(ofFloatImage & image, const string filepath){
     
     int ret = ParseEXRVersionFromFile(&exr_version, input);
     if (ret != 0) {
-        fprintf(stderr, "Invalid EXR file: %s\n", input);
+        ofLogError(__FUNCTION__) << "Invalid EXR file: " << input;
         return false;
     }
     
     if (exr_version.multipart) {
         // must be multipart flag is false.
-        fprintf(stderr, "Must be a singlepart image: %s\n", input);
+        ofLogError(__FUNCTION__) << "Must be a singlepart image: " << input;
         return false;
     }
     
@@ -35,13 +35,10 @@ bool ofxTinyEXR::loadImage(ofFloatImage & image, const string filepath){
     const char* err = NULL; // or `nullptr` in C++11 or later.
     ret = ParseEXRHeaderFromFile(&exr_header, &exr_version, input, &err);
     if (ret != 0) {
-        fprintf(stderr, "Parse EXR err: %s\n", err);
+        ofLogError(__FUNCTION__) << "Parse EXR err: " << err;
         FreeEXRErrorMessage(err); // free's buffer for an error message
         return false;
     }
-    
-    cout << "file " << filepath << endl;
-    cout << "channels " << exr_header.num_channels << endl;
     
     // Read HALF channel as FLOAT.
     for (int i = 0; i < exr_header.num_channels; i++) {
@@ -55,7 +52,7 @@ bool ofxTinyEXR::loadImage(ofFloatImage & image, const string filepath){
     
     ret = LoadEXRImageFromFile(&exr_image, &exr_header, input, &err);
     if (ret != 0) {
-        fprintf(stderr, "Load EXR err: %s\n", err);
+        ofLogError(__FUNCTION__) << "Load EXR err: " << err;
         FreeEXRHeader(&exr_header);
         FreeEXRErrorMessage(err); // free's buffer for an error message
         return false;
@@ -63,7 +60,7 @@ bool ofxTinyEXR::loadImage(ofFloatImage & image, const string filepath){
     
     // 3. Copy image data
     
-    ofLogNotice("ofxTinyEXR") << "dims: " << exr_image.width << ", " << exr_image.height << ", channels: " << exr_image.num_channels;
+    ofLogNotice(__FUNCTION__) << "Success dims: " << exr_image.width << ", " << exr_image.height << ", channels: " << exr_image.num_channels;
     
     
     // RGBA
@@ -352,7 +349,7 @@ bool ofxTinyEXR::saveImage( const ofFloatImage & img, string filepath){
     
     if (ret != TINYEXR_SUCCESS) {
         if (err) {
-            fprintf(stderr, "ERR : %s\n", err);
+            ofLogError(__FUNCTION__) << err;
             FreeEXRErrorMessage(err); // release memory of error message.
             return false;
         }
@@ -371,7 +368,7 @@ bool ofxTinyEXR::saveHDRImage( const ofFloatImage & img, string filepath){
     int height = img.getPixels().getHeight();
     int components = img.getPixels().getNumChannels();
     
-    ofLogNotice() << components << " components";
+    ofLogNotice(__FUNCTION__) << components << " components";
     
     int ret = stbi_write_hdr(filename, width, height, components, data);
     
@@ -379,7 +376,7 @@ bool ofxTinyEXR::saveHDRImage( const ofFloatImage & img, string filepath){
     
     if (ret == 0) {
         
-        ofLogError() << "Error saving HDR file\n";
+        ofLogError(__FUNCTION__) << "Error saving HDR file";
         //FreeEXRErrorMessage(err); // release memory of error message.
         return false;
     
