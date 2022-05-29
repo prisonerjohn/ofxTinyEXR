@@ -1,4 +1,3 @@
-
 #include "ofxTinyEXR.h"
 
 #define TINYEXR_IMPLEMENTATION
@@ -9,9 +8,9 @@
 
 // loads OF_IMAGE_GRAYSCALE, OF_IMAGE_COLOR, OF_IMAGE_COLOR_ALPHA
 
-bool ofxTinyEXR::loadImage(ofFloatImage & image, const string filepath){
+bool ofxTinyEXR::loadImage(ofFloatImage & image, const std::string filepath){
     
-    string filepath_full =ofToDataPath(filepath);
+    std::string filepath_full =ofToDataPath(filepath);
     const char * input = filepath_full.c_str();
     
     // 1. Read EXR version.
@@ -332,9 +331,9 @@ bool ofxTinyEXR::loadImage(ofFloatImage & image, const string filepath){
  }
  */
 
-bool ofxTinyEXR::saveImage( const ofFloatImage & img, string filepath){
+bool ofxTinyEXR::saveImage( const ofFloatImage & img, std::string filepath){
     
-    string filepath_full =ofToDataPath(filepath);
+    std::string filepath_full =ofToDataPath(filepath);
     const char * filename = filepath_full.c_str();
     
     const float * data = img.getPixels().getData();
@@ -358,9 +357,9 @@ bool ofxTinyEXR::saveImage( const ofFloatImage & img, string filepath){
     return true;
 }
 
-bool ofxTinyEXR::saveHDRImage( const ofFloatImage & img, string filepath){
+bool ofxTinyEXR::saveHDRImage( const ofFloatImage & img, std::string filepath){
     
-    string filepath_full =ofToDataPath(filepath);
+    std::string filepath_full =ofToDataPath(filepath);
     const char * filename = filepath_full.c_str();
     
     const float * data = img.getPixels().getData();
