@@ -59,7 +59,7 @@ bool ofxTinyEXR::loadImage(ofFloatImage & image, const std::string filepath){
     
     // 3. Copy image data
     
-    ofLogNotice(__FUNCTION__) << "Success dims: " << exr_image.width << ", " << exr_image.height << ", channels: " << exr_image.num_channels;
+    ofLogVerbose(__FUNCTION__) << "Success dims: " << exr_image.width << ", " << exr_image.height << ", channels: " << exr_image.num_channels;
     
     
     // RGBA
