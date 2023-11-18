@@ -1,5 +1,9 @@
 #include "ofxTinyEXR.h"
 
+#include "ofFileUtils.h"
+#include "ofLog.h"
+#include "ofPixels.h"
+
 #define TINYEXR_IMPLEMENTATION
 #include "tinyexr.h"
 
